@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Dropshipping Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #5b4bff;
+            --secondary: #ff6b6b;
+            --accent: #00c9b7;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), #7a6bff);
+            color: white;
+            padding: 1.5rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .support-contact {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .phone-number {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+            position: relative;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 1rem;
+            opacity: 0.9;
+            text-align: center;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            background: rgba(91, 75, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        .content-area {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            min-height: 600px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .stat-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary);
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .module-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(91, 75, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .module-features {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .module-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .module-features li:last-child {
+            border-bottom: none;
+        }
+
+        .module-features i {
+            color: var(--accent);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #4a3ce0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(91, 75, 255, 0.3);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .btn-danger {
+            background: var(--secondary);
+        }
+
+        .sidebar-widget {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 1.5rem;
+        }
+
+        .widget-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .order-list {
+            list-style: none;
+        }
+
+        .order-item {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .status-processing {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .status-shipped {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-delivered {
+            background: rgba(91, 75, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .status-cancelled {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--secondary);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 150px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-supplier {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background: rgba(91, 75, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .badge-success {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        .badge-info {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .payment-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .payment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .payment-features {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .payment-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .payment-features li:last-child {
+            border-bottom: none;
+        }
+
+        .payment-features i {
+            color: var(--accent);
+        }
+
+        .shipping-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .shipping-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .shipping-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .shipping-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .shipping-region {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .shipping-cost {
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .shipping-details {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .rating {
+            color: var(--warning);
+            margin: 0.5rem 0;
+        }
+
+        .courier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .courier-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .courier-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .courier-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .courier-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(91, 75, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .courier-features {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .courier-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .courier-features li:last-child {
+            border-bottom: none;
+        }
+
+        .courier-features i {
+            color: var(--accent);
+        }
+
+        .order-tracking {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .tracking-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .tracking-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: 1;
+        }
+
+        .tracking-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: bold;
+        }
+
+        .step-active .step-icon {
+            background: var(--accent);
+            color: white;
+        }
+
+        .step-completed .step-icon {
+            background: var(--success);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .support-section {
+            background: rgba(91, 75, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .support-section h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            z-index: 1001;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: var(--success);
+        }
+
+        .notification.error {
+            background: var(--secondary);
+        }
+
+        .notification.warning {
+            background: var(--warning);
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .module-grid, .product-grid, .payment-grid, .shipping-grid, .courier-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .tracking-steps {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .tracking-steps::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="support-contact">
+                    <i class="fas fa-headset"></i>
+                    <div>24/7 Support: <span class="phone-number">+91 9363777676</span></div>
+                </div>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="currentUser">Welcome, Admin</span>
+                </div>
+            </div>
+            <h1>Dynamic Dropshipping Platform</h1>
+            <p class="subtitle">Complete end-to-end solution with global courier integration</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="sidebar">
+                <div class="nav-item active" data-tab="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" data-tab="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Order Management</span>
+                </div>
+                <div class="nav-item" data-tab="couriers">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>Courier Integration</span>
+                </div>
+                <div class="nav-item" data-tab="payments">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payment Gateways</span>
+                </div>
+                <div class="nav-item" data-tab="products">
+                    <i class="fas fa-boxes"></i>
+                    <span>Product Catalog</span>
+                </div>
+                <div class="nav-item" data-tab="analytics">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics & Reports</span>
+                </div>
+                <div class="nav-item" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="content-area">
+                    <!-- Dashboard Tab -->
+                    <div class="tab-content active" id="dashboard">
+                        <h2>Dashboard Overview</h2>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h3 id="totalRevenue">₹2,47,890</h3>
+                                <p>Total Revenue</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="totalOrders">142</h3>
+                                <p>Orders Today</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="successRate">87%</h3>
+                                <p>Success Rate</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="activeCouriers">12</h3>
+                                <p>Active Couriers</p>
+                            </div>
+                        </div>
+
+                        <h3>Quick Actions</h3>
+                        <div class="module-grid">
+                            <div class="module-card">
+                                <div class="module-header">
+                                    <div class="module-icon">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Create New Order</h4>
+                                        <p>Start a new dropshipping order</p>
+                                    </div>
+                                </div>
+                                <ul class="module-features">
+                                    <li><i class="fas fa-check"></i> Auto supplier selection</li>
+                                    <li><i class="fas fa-check"></i> Best courier matching</li>
+                                    <li><i class="fas fa-check"></i> Real-time tracking</li>
+                                </ul>
+                                <button class="btn btn-block" onclick="showCreateOrderModal()">Create Order</button>
+                            </div>
+
+                            <div class="module-card">
+                                <div class="module-header">
+                                    <div class="module-icon">
+                                        <i class="fas fa-shipping-fast"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Track Shipment</h4>
+                                        <p>Monitor order delivery status</p>
+                                    </div>
+                                </div>
+                                <ul class="module-features">
+                                    <li><i class="fas fa-check"></i> Real-time updates</li>
+                                    <li><i class="fas fa-check"></i> Multi-courier support</li>
+                                    <li><i class="fas fa-check"></i> Delivery predictions</li>
+                                </ul>
+                                <button class="btn btn-block" onclick="showTrackingModal()">Track Order</button>
+                            </div>
+
+                            <div class="module-card">
+                                <div class="module-header">
+                                    <div class="module-icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Analytics Report</h4>
+                                        <p>Business performance insights</p>
+                                    </div>
+                                </div>
+                                <ul class="module-features">
+                                    <li><i class="fas fa-check"></i> Profit analytics</li>
+                                    <li><i class="fas fa-check"></i> Courier performance</li>
+                                    <li><i class="fas fa-check"></i> Sales trends</li>
+                                </ul>
+                                <button class="btn btn-block" onclick="generateReport()">Generate Report</button>
+                            </div>
+                        </div>
+
+                        <div class="support-section">
+                            <h3><i class="fas fa-headset"></i> Need Help?</h3>
+                            <p>Contact our support team 24/7 at <strong>+91 9363777676</strong> for any assistance</p>
+                            <button class="btn" style="margin-top: 1rem;" onclick="callSupport()">
+                                <i class="fas fa-phone"></i> Call Support
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Orders Tab -->
+                    <div class="tab-content" id="orders">
+                        <h2>Order Management</h2>
+                        <p>Manage all your dropshipping orders from start to finish</p>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Search Orders</label>
+                                <input type="text" class="form-control" id="orderSearch" placeholder="Order ID, Customer, Product...">
+                            </div>
+                            <div class="form-group">
+                                <label>Filter by Status</label>
+                                <select class="form-control" id="statusFilter" onchange="filterOrders()">
+                                    <option value="all">All Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="processing">Processing</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="delivered">Delivered</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button class="btn" onclick="showCreateOrderModal()" style="margin-bottom: 1rem;">
+                            <i class="fas fa-plus"></i> Create New Order
+                        </button>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Product</th>
+                                    <th>Amount</th>
+                                    <th>Courier</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable">
+                                <!-- Orders will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Couriers Tab -->
+                    <div class="tab-content" id="couriers">
+                        <h2>Courier Integration</h2>
+                        <p>Best courier services from India and worldwide with real-time integration</p>
+                        
+                        <div class="courier-grid">
+                            <!-- Indian Couriers -->
+                            <div class="courier-card">
+                                <div class="courier-header">
+                                    <div class="courier-icon">
+                                        <i class="fas fa-truck"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Delhivery</h4>
+                                        <p>India's Leading Courier</p>
+                                    </div>
+                                </div>
+                                <ul class="courier-features">
+                                    <li><i class="fas fa-check"></i> 19000+ PIN codes covered</li>
+                                    <li><i class="fas fa-check"></i> 2-5 day delivery</li>
+                                    <li><i class="fas fa-check"></i> Real-time tracking</li>
+                                    <li><i class="fas fa-check"></i> Cash on delivery</li>
+                                </ul>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>4.5/5</span>
+                                </div>
+                                <button class="btn btn-block" onclick="selectCourier('Delhivery')">Select Courier</button>
+                            </div>
+
+                            <div class="courier-card">
+                                <div class="courier-header">
+                                    <div class="courier-icon">
+                                        <i class="fas fa-shipping-fast"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Blue Dart</h4>
+                                        <p>Premium Express Service</p>
+                                    </div>
+                                </div>
+                                <ul class="courier-features">
+                                    <li><i class="fas fa-check"></i> Next day delivery</li>
+                                    <li><i class="fas fa-check"></i> 35000+ locations</li>
+                                    <li><i class="fas fa-check"></i> Temperature control</li>
+                                    <li><i class="fas fa-check"></i> High-value shipping</li>
+                                </ul>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>4.8/5</span>
+                                </div>
+                                <button class="btn btn-block" onclick="selectCourier('Blue Dart')">Select Courier</button>
+                            </div>
+
+                            <div class="courier-card">
+                                <div class="courier-header">
+                                    <div class="courier-icon">
+                                        <i class="fas fa-box"></i>
+                                    </div>
+                                    <div>
+                                        <h4>DTDC</h4>
+                                        <p>Economical Shipping</p>
+                                    </div>
+                                </div>
+                                <ul class="courier-features">
+                                    <li><i class="fas fa-check"></i> 10000+ locations</li>
+                                    <li><i class="fas fa-check"></i> 3-7 day delivery</li>
+                                    <li><i class="fas fa-check"></i> Cost-effective</li>
+                                    <li><i class="fas fa-check"></i> Bulk shipping</li>
+                                </ul>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>4.2/5</span>
+                                </div>
+                                <button class="btn btn-block" onclick="selectCourier('DTDC')">Select Courier</button>
+                            </div>
+
+                            <!-- International Couriers -->
+                            <div class="courier-card">
+                                <div class="courier-header">
+                                    <div class="courier-icon">
+                                        <i class="fas fa-globe"></i>
+                                    </div>
+                                    <div>
+                                        <h4>DHL</h4>
+                                        <p>Worldwide Express</p>
+                                    </div>
+                                </div>
+                                <ul class="courier-features">
+                                    <li><i class="fas fa-check"></i> 220+ countries</li>
+                                    <li><i class="fas fa-check"></i> 2-5 day international</li>
+                                    <li><i class="fas fa-check"></i> Customs clearance</li>
+                                    <li><i class="fas fa-check"></i> Express delivery</li>
+                                </ul>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>4.9/5</span>
+                                </div>
+                                <button class="btn btn-block" onclick="selectCourier('DHL')">Select Courier</button>
+                            </div>
+
+                            <div class="courier-card">
+                                <div class="courier-header">
+                                    <div class="courier-icon">
+                                        <i class="fas fa-plane"></i>
+                                    </div>
+                                    <div>
+                                        <h4>FedEx</h4>
+                                        <p>Global Logistics</p>
+                                    </div>
+                                </div>
+                                <ul class="courier-features">
+                                    <li><i class="fas fa-check"></i> 200+ countries</li>
+                                    <li><i class="fas fa-check"></i> Overnight delivery</li>
+                                    <li><i class="fas fa-check"></i> Temperature sensitive</li>
+                                    <li><i class="fas fa-check"></i> Dangerous goods</li>
+                                </ul>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>4.7/5</span>
+                                </div>
+                                <button class="btn btn-block" onclick="selectCourier('FedEx')">Select Courier</button>
+                            </div>
+
+                            <div class="courier-card">
+                                <div class="courier-header">
+                                    <div class="courier-icon">
+                                        <i class="fas fa-truck-loading"></i>
+                                    </div>
+                                    <div>
+                                        <h4>UPS</h4>
+                                        <p>Worldwide Supply Chain</p>
+                                    </div>
+                                </div>
+                                <ul class="courier-features">
+                                    <li><i class="fas fa-check"></i> 180+ countries</li>
+                                    <li><i class="fas fa-check"></i> Same day delivery</li>
+                                    <li><i class="fas fa-check"></i> Supply chain solutions</li>
+                                    <li><i class="fas fa-check"></i> Customs brokerage</li>
+                                </ul>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>4.8/5</span>
+                                </div>
+                                <button class="btn btn-block" onclick="selectCourier('UPS')">Select Courier</button>
+                            </div>
+                        </div>
+
+                        <div class="support-section">
+                            <h3><i class="fas fa-robot"></i> Smart Courier Selection</h3>
+                            <p>Our AI automatically selects the best courier based on cost, delivery time, and reliability for each destination.</p>
+                            <button class="btn" style="margin-top: 1rem;" onclick="optimizeCourierSelection()">
+                                <i class="fas fa-magic"></i> Optimize All Shipments
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Other tabs would continue here -->
+                    <div class="tab-content" id="payments">
+                        <h2>Payment Gateway Integration</h2>
+                        <p>Secure payment processing with global gateways</p>
+                        <!-- Payment gateway content -->
+                    </div>
+
+                    <div class="tab-content" id="products">
+                        <h2>Product Catalog</h2>
+                        <p>Manage your product listings and inventory</p>
+                        <!-- Product management content -->
+                    </div>
+
+                    <div class="tab-content" id="analytics">
+                        <h2>Analytics & Reports</h2>
+                        <p>Business intelligence and performance metrics</p>
+                        <!-- Analytics content -->
+                    </div>
+
+                    <div class="tab-content" id="settings">
+                        <h2>Platform Settings</h2>
+                        <p>Configure your dropshipping platform</p>
+                        <!-- Settings content -->
+                    </div>
+                </div>
+
+                <div class="sidebar-widgets">
+                    <div class="sidebar-widget">
+                        <div class="widget-title">
+                            <i class="fas fa-bell"></i>
+                            <span>Recent Activity</span>
+                        </div>
+                        <ul class="order-list" id="recentActivity">
+                            <!-- Recent activity will be populated by JavaScript -->
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <div class="widget-title">
+                            <i class="fas fa-shipping-fast"></i>
+                            <span>Quick Actions</span>
+                        </div>
+                        <button class="btn btn-block" style="margin-bottom: 0.5rem;" onclick="showCreateOrderModal()">
+                            <i class="fas fa-plus"></i> Create Order
+                        </button>
+                        <button class="btn btn-block" style="margin-bottom: 0.5rem;" onclick="showTrackingModal()">
+                            <i class="fas fa-search"></i> Track Order
+                        </button>
+                        <button class="btn btn-block" onclick="generateReport()">
+                            <i class="fas fa-chart-pie"></i> Generate Report
+                        </button>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <div class="widget-title">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Performance</span>
+                        </div>
+                        <div class="stat-card" style="margin-bottom: 1rem;">
+                            <h3 id="orderSuccessRate">94%</h3>
+                            <p>Order Success Rate</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="avgDeliveryTime">2.1 days</h3>
+                            <p>Avg. Delivery Time</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-widget">
+                        <div class="widget-title">
+                            <i class="fas fa-headset"></i>
+                            <span>Support</span>
+                        </div>
+                        <p style="margin-bottom: 1rem; font-size: 0.9rem;">Need help? Contact our support team:</p>
+                        <div class="phone-number" style="text-align: center; margin-bottom: 1rem;">
+                            +91 9363777676
+                        </div>
+                        <button class="btn btn-block" onclick="callSupport()">
+                            <i class="fas fa-phone"></i> Call Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Order Modal -->
+    <div class="modal" id="createOrderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Order</h3>
+                <button class="modal-close" onclick="closeModal('createOrderModal')">&times;</button>
+            </div>
+            <form id="orderForm">
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input type="text" class="form-control" id="customerName" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Customer Email</label>
+                        <input type="email" class="form-control" id="customerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Customer Phone</label>
+                        <input type="tel" class="form-control" id="customerPhone" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Shipping Address</label>
+                    <textarea class="form-control" id="shippingAddress" rows="3" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Product</label>
+                        <select class="form-control" id="productSelect" required>
+                            <option value="">Select Product</option>
+                            <option value="Wireless Earbuds">Wireless Earbuds - ₹2,499</option>
+                            <option value="Premium T-Shirt">Premium T-Shirt - ₹899</option>
+                            <option value="Smart Home Device">Smart Home Device - ₹3,599</option>
+                            <option value="Fitness Tracker">Fitness Tracker - ₹1,799</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" class="form-control" id="productQuantity" min="1" value="1" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Select Courier</label>
+                    <select class="form-control" id="courierSelect" required>
+                        <option value="">Auto Select Best Courier</option>
+                        <option value="Delhivery">Delhivery</option>
+                        <option value="Blue Dart">Blue Dart</option>
+                        <option value="DTDC">DTDC</option>
+                        <option value="DHL">DHL</option>
+                        <option value="FedEx">FedEx</option>
+                        <option value="UPS">UPS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select class="form-control" id="paymentMethod" required>
+                        <option value="Stripe">Stripe</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Razorpay">Razorpay</option>
+                        <option value="PhonePe">PhonePe</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-block">Create Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tracking Modal -->
+    <div class="modal" id="trackingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Track Order</h3>
+                <button class="modal-close" onclick="closeModal('trackingModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Enter Order ID</label>
+                <input type="text" class="form-control" id="trackingOrderId" placeholder="e.g., ORD-7842">
+            </div>
+            <button class="btn btn-block" onclick="trackOrder()">Track Order</button>
+            
+            <div id="trackingResult" style="display: none; margin-top: 2rem;">
+                <div class="order-tracking">
+                    <h4>Order Status: <span id="trackingStatus">Shipped</span></h4>
+                    <div class="tracking-steps">
+                        <div class="tracking-step step-completed">
+                            <div class="step-icon">1</div>
+                            <div class="step-label">Order Placed</div>
+                        </div>
+                        <div class="tracking-step step-completed">
+                            <div class="step-icon">2</div>
+                            <div class="step-label">Processing</div>
+                        </div>
+                        <div class="tracking-step step-active">
+                            <div class="step-icon">3</div>
+                            <div class="step-label">Shipped</div>
+                        </div>
+                        <div class="tracking-step">
+                            <div class="step-icon">4</div>
+                            <div class="step-label">Delivered</div>
+                        </div>
+                    </div>
+                    <div id="trackingDetails">
+                        <p><strong>Courier:</strong> <span id="trackingCourier">Delhivery</span></p>
+                        <p><strong>Tracking Number:</strong> <span id="trackingNumber">DEL123456789</span></p>
+                        <p><strong>Estimated Delivery:</strong> <span id="estimatedDelivery">2 days</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <footer>
+        <div class="footer-content">
+            <h3>Dynamic Dropshipping Platform</h3>
+            <p>Complete end-to-end solution for global e-commerce businesses</p>
+            
+            <div class="footer-links">
+                <a href="#">Documentation</a>
+                <a href="#">Support</a>
+                <a href="#">API</a>
+                <a href="#">Pricing</a>
+            </div>
+            
+            <div class="support-contact" style="justify-content: center; margin: 1rem 0;">
+                <i class="fas fa-phone"></i>
+                <div>Global Support: <strong>+91 9363777676</strong></div>
+            </div>
+            
+            <p class="copyright">© 2023 Dynamic Dropshipping Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Application Data
+        const appData = {
+            orders: [
+                {
+                    id: 'ORD-7842',
+                    customer: 'Raj Sharma',
+                    product: 'Wireless Earbuds',
+                    amount: '₹2,499',
+                    courier: 'Delhivery',
+                    status: 'shipped',
+                    date: '2023-12-01'
+                },
+                {
+                    id: 'ORD-7841',
+                    customer: 'Priya Patel',
+                    product: 'Premium T-Shirt',
+                    amount: '₹899',
+                    courier: 'Blue Dart',
+                    status: 'processing',
+                    date: '2023-12-01'
+                },
+                {
+                    id: 'ORD-7840',
+                    customer: 'Amit Kumar',
+                    product: 'Smart Home Device',
+                    amount: '₹3,599',
+                    courier: 'DHL',
+                    status: 'delivered',
+                    date: '2023-11-30'
+                }
+            ],
+            recentActivity: [
+                'New order #ORD-7842 created',
+                'Order #ORD-7841 shipped via Blue Dart',
+                'Payment received for order #ORD-7840',
+                'New customer registration: Neha Singh'
+            ],
+            stats: {
+                totalRevenue: 247890,
+                totalOrders: 142,
+                successRate: 87,
+                activeCouriers: 12,
+                orderSuccessRate: 94,
+                avgDeliveryTime: 2.1
+            }
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            // Initialize navigation
+            initializeNavigation();
+            
+            // Load initial data
+            loadOrders();
+            loadRecentActivity();
+            updateStats();
+            
+            // Set up form handlers
+            document.getElementById('orderForm').addEventListener('submit', createOrder);
+            
+            // Start real-time updates
+            startRealTimeUpdates();
+        }
+
+        function initializeNavigation() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    navItems.forEach(i => i.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Hide all tab contents
+                    document.querySelectorAll('.tab-content').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    
+                    // Show selected tab content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+
+        function loadOrders() {
+            const ordersTable = document.getElementById('ordersTable');
+            ordersTable.innerHTML = '';
+            
+            appData.orders.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.product}</td>
+                    <td>${order.amount}</td>
+                    <td>${order.courier}</td>
+                    <td><span class="order-status status-${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span></td>
+                    <td>
+                        <div class="order-actions">
+                            <button class="btn btn-sm btn-success" onclick="trackOrderById('${order.id}')">Track</button>
+                            <button class="btn btn-sm" onclick="editOrder('${order.id}')">Edit</button>
+                        </div>
+                    </td>
+                `;
+                ordersTable.appendChild(row);
+            });
+        }
+
+        function loadRecentActivity() {
+            const activityList = document.getElementById('recentActivity');
+            activityList.innerHTML = '';
+            
+            appData.recentActivity.forEach(activity => {
+                const item = document.createElement('li');
+                item.className = 'order-item';
+                item.innerHTML = `
+                    <div>
+                        <div>${activity}</div>
+                        <small>2 minutes ago</small>
+                    </div>
+                `;
+                activityList.appendChild(item);
+            });
+        }
+
+        function updateStats() {
+            document.getElementById('totalRevenue').textContent = `₹${appData.stats.totalRevenue.toLocaleString()}`;
+            document.getElementById('totalOrders').textContent = appData.stats.totalOrders;
+            document.getElementById('successRate').textContent = `${appData.stats.successRate}%`;
+            document.getElementById('activeCouriers').textContent = appData.stats.activeCouriers;
+            document.getElementById('orderSuccessRate').textContent = `${appData.stats.orderSuccessRate}%`;
+            document.getElementById('avgDeliveryTime').textContent = `${appData.stats.avgDeliveryTime} days`;
+        }
+
+        function showCreateOrderModal() {
+            document.getElementById('createOrderModal').style.display = 'flex';
+        }
+
+        function showTrackingModal() {
+            document.getElementById('trackingModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function createOrder(e) {
+            e.preventDefault();
+            
+            const orderData = {
+                customerName: document.getElementById('customerName').value,
+                customerEmail: document.getElementById('customerEmail').value,
+                customerPhone: document.getElementById('customerPhone').value,
+                shippingAddress: document.getElementById('shippingAddress').value,
+                product: document.getElementById('productSelect').value,
+                quantity: document.getElementById('productQuantity').value,
+                courier: document.getElementById('courierSelect').value || 'Auto Selected',
+                paymentMethod: document.getElementById('paymentMethod').value
+            };
+            
+            // Generate order ID
+            const orderId = 'ORD-' + Math.floor(1000 + Math.random() * 9000);
+            
+            // Add to orders
+            appData.orders.unshift({
+                id: orderId,
+                customer: orderData.customerName,
+                product: orderData.product,
+                amount: '₹' + (orderData.product.includes('Earbuds') ? 2499 : 
+                              orderData.product.includes('T-Shirt') ? 899 :
+                              orderData.product.includes('Home') ? 3599 : 1799),
+                courier: orderData.courier,
+                status: 'pending',
+                date: new Date().toISOString().split('T')[0]
+            });
+            
+            // Add to recent activity
+            appData.recentActivity.unshift(`New order ${orderId} created for ${orderData.customerName}`);
+            
+            // Update stats
+            appData.stats.totalOrders++;
+            
+            // Reload data
+            loadOrders();
+            loadRecentActivity();
+            updateStats();
+            
+            // Close modal and show success
+            closeModal('createOrderModal');
+            showNotification('Order created successfully!', 'success');
+            
+            // Reset form
+            document.getElementById('orderForm').reset();
+        }
+
+        function trackOrder() {
+            const orderId = document.getElementById('trackingOrderId').value;
+            if (!orderId) {
+                showNotification('Please enter an order ID', 'error');
+                return;
+            }
+            
+            const order = appData.orders.find(o => o.id === orderId);
+            if (order) {
+                document.getElementById('trackingResult').style.display = 'block';
+                document.getElementById('trackingStatus').textContent = order.status.charAt(0).toUpperCase() + order.status.slice(1);
+                document.getElementById('trackingCourier').textContent = order.courier;
+                document.getElementById('trackingNumber').textContent = order.courier.toUpperCase().substring(0, 3) + Math.floor(100000000 + Math.random() * 900000000);
+                document.getElementById('estimatedDelivery').textContent = order.status === 'shipped' ? '2 days' : order.status === 'processing' ? '3-4 days' : 'Delivered';
+            } else {
+                showNotification('Order not found', 'error');
+            }
+        }
+
+        function trackOrderById(orderId) {
+            showTrackingModal();
+            document.getElementById('trackingOrderId').value = orderId;
+            setTimeout(() => trackOrder(), 100);
+        }
+
+        function selectCourier(courierName) {
+            showNotification(`Selected ${courierName} as preferred courier`, 'success');
+        }
+
+        function optimizeCourierSelection() {
+            showNotification('Optimizing courier selection for all shipments...', 'warning');
+            setTimeout(() => {
+                showNotification('Courier optimization completed!', 'success');
+            }, 2000);
+        }
+
+        function generateReport() {
+            showNotification('Generating comprehensive business report...', 'warning');
+            setTimeout(() => {
+                showNotification('Report generated successfully!', 'success');
+            }, 1500);
+        }
+
+        function callSupport() {
+            alert('Calling support: +91 9363777676');
+        }
+
+        function filterOrders() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const searchTerm = document.getElementById('orderSearch').value.toLowerCase();
+            
+            const filteredOrders = appData.orders.filter(order => {
+                const statusMatch = statusFilter === 'all' || order.status === statusFilter;
+                const searchMatch = order.id.toLowerCase().includes(searchTerm) ||
+                                  order.customer.toLowerCase().includes(searchTerm) ||
+                                  order.product.toLowerCase().includes(searchTerm);
+                return statusMatch && searchMatch;
+            });
+            
+            const ordersTable = document.getElementById('ordersTable');
+            ordersTable.innerHTML = '';
+            
+            filteredOrders.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.product}</td>
+                    <td>${order.amount}</td>
+                    <td>${order.courier}</td>
+                    <td><span class="order-status status-${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span></td>
+                    <td>
+                        <div class="order-actions">
+                            <button class="btn btn-sm btn-success" onclick="trackOrderById('${order.id}')">Track</button>
+                            <button class="btn btn-sm" onclick="editOrder('${order.id}')">Edit</button>
+                        </div>
+                    </td>
+                `;
+                ordersTable.appendChild(row);
+            });
+        }
+
+        function editOrder(orderId) {
+            const order = appData.orders.find(o => o.id === orderId);
+            if (order) {
+                showNotification(`Editing order ${orderId}`, 'warning');
+                // In a real app, you would open an edit modal here
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function startRealTimeUpdates() {
+            // Simulate real-time order updates
+            setInterval(() => {
+                // Randomly update order status
+                if (Math.random() > 0.7 && appData.orders.length > 0) {
+                    const randomOrder = appData.orders[Math.floor(Math.random() * appData.orders.length)];
+                    if (randomOrder.status === 'pending') {
+                        randomOrder.status = 'processing';
+                    } else if (randomOrder.status === 'processing') {
+                        randomOrder.status = 'shipped';
+                    } else if (randomOrder.status === 'shipped' && Math.random() > 0.8) {
+                        randomOrder.status = 'delivered';
+                    }
+                    loadOrders();
+                    
+                    // Add to recent activity
+                    if (randomOrder.status === 'shipped') {
+                        appData.recentActivity.unshift(`Order ${randomOrder.id} shipped via ${randomOrder.courier}`);
+                    } else if (randomOrder.status === 'delivered') {
+                        appData.recentActivity.unshift(`Order ${randomOrder.id} delivered successfully`);
+                    }
+                    loadRecentActivity();
+                }
+                
+                // Update stats occasionally
+                if (Math.random() > 0.9) {
+                    appData.stats.totalOrders += Math.floor(Math.random() * 3);
+                    appData.stats.totalRevenue += Math.floor(Math.random() * 5000);
+                    updateStats();
+                }
+            }, 5000);
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
